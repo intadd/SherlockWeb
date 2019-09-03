@@ -1,0 +1,124 @@
+{% load static %}
+
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="icon" href="/static/bootstrap-4.0.0/docs/4.0/assets/img/favicons/favicon.ico">
+<link href="/static/bootstrap-4.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+ <link rel="stylesheet" href="/static/bootstrap-4.0.0/docs/4.0/examples/cover/cover.css">
+<title>Cover Template for Bootstrap</title>
+<script type='text/javascript' src="https://code.jquery.com/jquery-3.3.1.min.js" type='text/javascript'></script>
+
+</head>
+<body class="text-center">
+<div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+<header class="masthead mb-auto">
+
+        <div class="inner">
+
+          <h3 class="masthead-brand">Sherlock-Web</h3>
+
+          <nav class="nav nav-masthead justify-content-center">
+
+            <a class="nav-link active" href="#">Home</a>
+
+            <a class="nav-link" href="#">Features</a>
+
+            <a class="nav-link" href="#">Contact</a>
+
+          </nav>
+
+        </div>
+
+      </header>
+
+
+<script type="text/javascript">
+var count=0;
+var idsbox = {{ aaa|safe }};
+
+var qqq = function (apikey){
+
+    $.ajax( {
+        type:'GET',
+        url:'/api/',
+        data : {'key':apikey},
+        success : function (data) {
+            if(data['code']!='Yet'){
+                if(data['code']!='NO'){
+                    $('#urlTable > tbody:last').append('<tr><td><a href="'+data['url']+'">'+data['url']+'</a></td></tr>');
+                }
+                count+=1;
+            }
+            else{
+                setTimeout('qqq("'+apikey+'")',3000);
+            }
+        }
+    }
+    );
+
+}
+
+
+var startAjax = function (){
+    for (var i in idsbox){
+        qqq(idsbox[i]);
+        }
+}
+
+
+setTimeout('startAjax(idsbox)',5000);
+$(document).ajaxStop(function(){
+    console.log(count);
+    if(count==idsbox.length){
+        $('#div2').hide()
+
+    }
+});
+
+
+</script>
+
+<main role="main" class="inner cover">
+
+        <h1 class="cover-heading">Search Social Network</h1>
+<div id ='div2'> Loading...<img align="center" width="100%"src="https://media1.tenor.com/images/2044254a2d071969a97ab7f722c2e295/tenor.gif?itemid=7715569"></div>
+{% for i in bbb %}
+    <img src=" {{i}}" style="width:50px; height:50px;"/>
+ {% endfor %}
+{% for i in ccc %}
+
+    <img src=" {{i}}" style="width:50px; height:50px;"/>
+    {% endfor %}
+<table id='urlTable' width="100%" border="1">
+<thead align ="center">
+<th>URL</th>
+</thead>
+<tbody>
+</tbody>
+</table>
+</main>
+<footer class="mastfoot mt-auto">
+        <div class="inner">
+          <p>Hello brothers <a href="https://getbootstrap.com/">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+        </div>
+      </footer>
+    </div>
+</div>
+
+
+
+
+
+    <!-- Placed at the end of the document so the pages load faster -->
+</body>
+
+</html>

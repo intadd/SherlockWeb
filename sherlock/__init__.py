@@ -1,0 +1,22 @@
+from __future__ import absolute_import
+
+
+# 아래 import는 장고가 시작될 때 항상 import되기 때문에
+# shared_task가 장고에서 작동하는 것을 가능하게 해 줍니다.
+from .celery import app as celery_app # Celery를 import합니다.
+import os
+from celery import Celery
+# Django의 세팅 모듈을 Celery의 기본으로 사용하도록 등록합니다.
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sherlock.settings')
+from django.conf import settings  # noqa
+app=Celery('sherlock',broker=settings.BROKER_URL,backend=settings.CELERY_RESULT_BACKEND)
+
+
+# 문자열로 등록한 이유는 Celery Worker가 Windows를 사용할 경우
+# 객체를 pickle로 묶을 필요가 없다는 것을 알려주기 위함입니다.
+app.config_from_object('django.conf:settings')
+app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
+
+
+
+
