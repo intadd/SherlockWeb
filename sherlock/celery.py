@@ -7,7 +7,8 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sherlock.settings')
 from django.conf import settings  # noqa
 
 
-app=Celery('sherlock',broker=settings.BROKER_URL,backend=settings.CELERY_RESULT_BACKEND)
+app = Celery('sherlock', broker=settings.BROKER_URL,
+             backend=settings.CELERY_RESULT_BACKEND)
 
 
 # 문자열로 등록한 이유는 Celery Worker가 Windows를 사용할 경우
@@ -16,6 +17,6 @@ app.config_from_object('django.conf:settings')
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 
 
-#@app.task(bind=True)
-#def debug_task(self):
+# @app.task(bind=True)
+# def debug_task(self):
 #    print('Request: {0!r}'.format(self.request))

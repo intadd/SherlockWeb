@@ -14,19 +14,16 @@ def index(request):
 
 
 def report(request):
-    username = request.GET.get('username', '')
-    user_agent = request.META['HTTP_USER_AGENT']
-    images, source = GETimage(username)
-
-    times = timezone.now()
-    if username:
-
-        urls = []
+    username = request.GET.get("username", False)
+    if (username):
+        images, source = GETimage(username)
         data_file_path = os.path.join(os.path.dirname(
-            os.path.realpath(__file__)), 'data.json')
+            os.path.realpath(__file__)), '/data.json')
+
         site_data = json.load(open(data_file_path, 'r'))
-        all_dict = []
+
         results_total = {}
+
         for social_network, net_info in site_data.items():
             results_site = {}
             results_site['url_main'] = net_info.get("urlMain")
@@ -69,7 +66,7 @@ def report(request):
 
 
 def sherlock_api(request):
-    tasks_key = request.GET.get('key', '')
+    tasks_key = request.GET.get('key', False)
     if (tasks_key):
         res = AsyncResult(tasks_key, app=sherlock_main)
         if(res.status == 'SUCCESS'):
