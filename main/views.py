@@ -18,7 +18,7 @@ def report(request):
     if (username):
         images, source = GETimage(username)
         data_file_path = os.path.join(os.path.dirname(
-            os.path.realpath(__file__)), '/data.json')
+            os.path.realpath(__file__)), 'data.json')
 
         site_data = json.load(open(data_file_path, 'r'))
 
@@ -53,6 +53,7 @@ def report(request):
                 results_total[social_network] = results_site
                 results_total[social_network].update(net_info)
         tasks_id = []
+
         for info in results_total:
             if(results_total[info].get('exists') != 'illegal'):
                 try:
@@ -66,7 +67,7 @@ def report(request):
 
 
 def sherlock_api(request):
-    tasks_key = request.GET.get('key', False)
+    tasks_key = request.GET.get('key', '')
     if (tasks_key):
         res = AsyncResult(tasks_key, app=sherlock_main)
         if(res.status == 'SUCCESS'):
